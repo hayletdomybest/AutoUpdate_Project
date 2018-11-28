@@ -28,12 +28,12 @@ namespace DownLoadForm
             try
             {
                 //MessageBox.Show("壓縮來源: " + UnzipInfo.GetFullPath());
-                //MessageBox.Show("壓縮地址: " + UnzipInfo.GetFullPath_Unzip());
+                //MessageBox.Show("壓縮地址: " + UnzipInfo.position);
                 unzip = ZipFile.Read(UnzipInfo.GetFullPath());
 
                 foreach (ZipEntry e in unzip)
                 {
-                    e.Extract(UnzipInfo.GetFullPath_Unzip(),
+                    e.Extract(UnzipInfo.position,
                         ExtractExistingFileAction.OverwriteSilently);
 
                 }
@@ -50,7 +50,6 @@ namespace DownLoadForm
             {
                 GC.Collect();
             }
-
             return base.Start();
         }
     }

@@ -42,8 +42,8 @@ namespace DownLoadForm
             ParentForm.DelegateLable(ParentForm.lab_Title, "更新完成");
             ParentForm.DelegateBar(ParentForm.bar_rate, 100);
             ParentForm.DelegateBtn(ParentForm.btn_Cancel, "完成");
-            File.Delete(SourceInfo.GetFullPath());
-            Directory.Delete(SourceInfo.GetFullPath_Unzip(), true);
+            //File.Delete(SourceInfo.GetFullPath());
+            //Directory.Delete(SourceInfo.GetFullPath_Unzip(), true);
             base.Finish();
         }
 
@@ -52,7 +52,7 @@ namespace DownLoadForm
             foreach (DirectoryInfo dir in source.GetDirectories())
                 CopyFilesRecursively(dir, target.CreateSubdirectory(dir.Name));
             foreach (FileInfo file in source.GetFiles())
-                file.CopyTo(Path.Combine(target.FullName, file.Name),true);
+                file.CopyTo(Path.Combine(target.FullName, file.Name), true);
         }
     }
 }
