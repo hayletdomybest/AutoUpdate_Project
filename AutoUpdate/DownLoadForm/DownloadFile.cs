@@ -3,7 +3,6 @@ using System.ComponentModel;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Windows.Forms;
 using System.Net;
 using System.Threading;
 using System.IO;
@@ -11,30 +10,43 @@ namespace DownLoadForm
 {
     public class DownloadFile :UpdateProcess
     {
+        private EventWaitHandle waitHandle = new AutoResetEvent(false);
         /// <summary>
         /// Download data uri
         /// </summary>
         private string Download_Uri;
 
-        private string DownLoadFilePath;
 
-        private string DownLoadFileFullPath;
+        /// <summary>
+        /// Download file infomation
+        /// </summary>
+        private ZipRouter Download_info;
 
-        private string DownloadFileName;
 
+
+        /// <summary>
+        /// File size
+        /// </summary>
         private long DowloadFileSize;
-        public DownloadFile(string uri,string FileName,string TempPath,DownLoadForm father)
+
+        
+        /// <summary>
+        /// Initial parameter
+        /// </summary>
+        public DownloadFile(string uri,ZipRouter info,DownLoadForm father)
         {
             Download_Uri = uri;
-            DownLoadFilePath = TempPath;
-            DownLoadFileFullPath = Path.Combine(DownLoadFilePath, FileName);
-            DownloadFileName = FileName;
+
+            Download_info = info;
+
             ParentForm = father;
-            MessageBox.Show(DownLoadFilePath);
-            MessageBox.Show(DownLoadFileFullPath);
         }
 
 
+        /// <summary>
+        /// Start Download file
+        /// </summary>
+        /// <returns>Sucess or Unsucess</returns>
         public override bool Start()
         {
             WebClient DownloadClient;
@@ -49,12 +61,16 @@ namespace DownLoadForm
             {
                 Httpreques = (HttpWebRequest)HttpWebRequest.Create(Download_Uri);
                 Httpresponse = (HttpWebResponse)Httpreques.GetResponse();
+
                 DowloadFileSize = Httpresponse.ContentLength;
-                ParentForm.DelegateLable(ParentForm.lab_FileName, DownloadFileName);
-                if (!Directory.Exists(DownLoadFilePath))
-                    Directory.CreateDirectory(DownLoadFilePath);
+                
+                //Display download file name
+                ParentForm.DelegateLable(ParentForm.lab_FileName,Download_info.app_name);
+
+                if (!Directory.Exists(Download_info.position))
+                    Directory.CreateDirectory(Download_info.position);
                 DownloadClient.DownloadFileAsync(new Uri(Download_Uri),
-                    DownLoadFileFullPath);
+                    Download_info.GetFullPath());
             }
             catch (Exception ex)
             {
@@ -62,12 +78,18 @@ namespace DownLoadForm
                 //AutoUpdate.AutoUpdate.Debug_Error(ex.ToString());
                 return false;
             }
-            return true;
+            finally
+            {
+                waitHandle.WaitOne();
+                waitHandle.Close();
+            }
+            return base.Start();
         }
 
         private void DownLoadFinish(object sender, EventArgs e)
         {
             ParentForm.DelegateLable(ParentForm.lab_Title, "更新檔下載完成");
+            this.waitHandle.Set();
         }
 
         private void DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)

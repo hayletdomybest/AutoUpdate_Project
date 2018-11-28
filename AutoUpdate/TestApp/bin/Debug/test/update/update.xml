@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<update>
+	<Item>
+		<Name>1.txt</Name>
+		<Path>DataFile\FormData\AT\AT04144F</Path>
+	</Item>
+	<Item>
+		<Name>2.txt</Name>
+		<Path>DataFile\image</Path>
+	</Item>
+	<Item>
+		<Name>3.txt</Name>
+		<Path>DataFile\Waveform</Path>
+	</Item>
+	<Item>
+		<Name>4.txt</Name>
+		<Path>DataFile</Path>
+	</Item>
+	<Item>
+		<Name>5.txt</Name>
+		<Path></Path>
+	</Item>
+	<Item>
+		<Name>TestApp.exe</Name>
+		<Path></Path>
+	</Item>	
+</update>

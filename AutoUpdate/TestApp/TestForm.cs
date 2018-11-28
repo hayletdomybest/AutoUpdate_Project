@@ -50,10 +50,8 @@ namespace TestApp
             UpdateInterface.DoUpdate();
         }
         
-        private  void UpdateComplete(bool update)
+        private  void UpdateComplete()
         {
-            if (!update)
-                return;
             //download application path
             UpdateInterface.StartDownLoad(DownLoadFormFullPath);  
         }

@@ -14,6 +14,7 @@ namespace AutoUpdate
         internal AcceptForm(UpdateInfo server)
         {
             InitializeComponent();
+            //display version
             lab_title_lastest.Text = string.Format
                 (lab_title_lastest.Text, server._Version.ToString());           
         }

@@ -133,7 +133,7 @@
         public System.Windows.Forms.ProgressBar bar_rate;
         public System.Windows.Forms.Label lab_FileName;
         public System.Windows.Forms.Label lab_FileSize;
-        private System.Windows.Forms.Button btn_Cancel;
+        public System.Windows.Forms.Button btn_Cancel;
         public System.Windows.Forms.Label lab_Title;
     }
 }

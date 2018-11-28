@@ -3,62 +3,55 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Ionic.Zip;
+using System.Windows.Forms;
 namespace DownLoadForm
 {
     public class UnzipFile : UpdateProcess
     {
-        private string UnZipFilePath; //Compress file path
+        private ZipRouter UnzipInfo;
 
-        private string StoragePath;     //Unzip file storage path
-        public UnzipFile(string unzipPath,string storagePath,DownLoadForm father)
+        public UnzipFile(ZipRouter info,DownLoadForm father)
         {
-            UnZipFilePath = unzipPath;
-            StoragePath = storagePath;
+            UnzipInfo = info;
             ParentForm = father;
         
         }
+
+
+        /// <summary>
+        /// Unzip File about unzip information
+        /// </summary>
         public override bool Start()
         {
             ParentForm.DelegateLable(ParentForm.lab_Title, "更新檔解壓縮");
-
-            return UnZipFiles(UnZipFilePath, StoragePath, null);
-        }
-
-        
-        /// <summary>
-        /// Unzip-Files
-        /// </summary>
-        /// <param name="soruce">Unzip File path</param>
-        /// <param name="dir">storage Path</param>
-        private bool UnZipFiles(string soruce, string dir, string password)
-        {
             ZipFile unzip;
             try
             {
-                string testRoot = Environment.CurrentDirectory + @"\Temp\SettingTool.zip";
-                ParentForm.DelegateShowError(testRoot);
-                unzip = ZipFile.Read(testRoot);
-                if (password != null && password != string.Empty) unzip.Password = password;
+                //MessageBox.Show("壓縮來源: " + UnzipInfo.GetFullPath());
+                //MessageBox.Show("壓縮地址: " + UnzipInfo.GetFullPath_Unzip());
+                unzip = ZipFile.Read(UnzipInfo.GetFullPath());
 
                 foreach (ZipEntry e in unzip)
                 {
-                    e.Extract(dir, ExtractExistingFileAction.OverwriteSilently);
+                    e.Extract(UnzipInfo.GetFullPath_Unzip(),
+                        ExtractExistingFileAction.OverwriteSilently);
+
                 }
                 unzip.Dispose();
 
             }
             catch (Exception e)
             {
-                //ParentForm.DelegateShowError("解壓縮失敗");
-                ParentForm.DelegateShowError(e.ToString());
+                ParentForm.DelegateShowError("解壓縮失敗");
+                //ParentForm.DelegateShowError(e.ToString());
                 return false;
             }
             finally
             {
-                
                 GC.Collect();
             }
-            return true;
+
+            return base.Start();
         }
     }
 }

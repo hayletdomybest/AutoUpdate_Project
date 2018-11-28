@@ -2,14 +2,20 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Windows.Forms;
 namespace DownLoadForm
 {
     public class UpdateProcess
     {
-        public DownLoadForm ParentForm { set; get; }
+        protected DownLoadForm ParentForm;
 
-        public virtual bool Start() { return true; }
-        //public virtual bool Finish(object sender, EventArgs e) { return true; }
+        public virtual bool Start() 
+        {
+            Finish();
+            return true;
+        }
+        protected virtual void Finish()
+        {
+            ParentForm.waitHandle.Set(); 
+        }
     }
 }

@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
+//using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -18,84 +18,83 @@ namespace DownLoadForm
     public delegate void InvokFunc();
     public partial class DownLoadForm : Form
     {
-        private string StartPath = System.Windows.Forms.Application.StartupPath;
+        //private string StartPath = System.Windows.Forms.Application.StartupPath;
 
-        private const string DownLoadFilePath = "Temp";
+        public EventWaitHandle waitHandle = new AutoResetEvent(false);
 
-        private string DownLoadFileFullPath = Path.Combine(Environment.CurrentDirectory,
-                                                            DownLoadFilePath);
+        private const string TempDirName = "Temp";
 
-        private string UnZipFilePath;
 
         /// <summary>
-        /// Where update file which is zip file
-        /// </summary>
-        private string UnZipFileFullPath;
-
-        /// <summary>
-        /// Restart Exe file Path 
-        /// </summary>
-        private string RestartPath;
-
-        /// <summary>
-        /// Restart Exe file full Path
-        /// </summary>
-        private string RestartFullPath;
-
-        /// <summary>
-        /// Download data uri
+        /// Download file Uri
         /// </summary>
         private string Download_Uri;
 
+        /// <summary>
+        /// Download file path info
+        /// </summary>
+        private ZipRouter Download_Path;
+
 
         /// <summary>
-        /// Download data file name
+        /// Install path info
         /// </summary>
-        private string Download_FileName;
-        
+        private Router Install_Path;
+
+
         private bool IsUpdate = false;
-
-
         /// <summary>
         /// Prepare parameter for download file
         /// </summary>
         internal DownLoadForm(string[] sender)
         {
             InitializeComponent();
-            
+
+            string RestartFullPath, Download_FileName;
+
             RestartFullPath = sender[0];
             Download_Uri = sender[1];
             Download_FileName = sender[2];
 
-            RestartPath = Path.GetDirectoryName(RestartFullPath);
-            
-            //DownLoadFilePath = Path.Combine(StartPath, DownLoadFilePath);
-            
-            DownLoadFileFullPath = Path.Combine(DownLoadFilePath, Download_FileName);
-            
-            UnZipFilePath = DownLoadFilePath;
-            UnZipFileFullPath = DownLoadFileFullPath.Replace(".zip", "");
+
+
+            Install_Path = new Router(Path.GetFileName(RestartFullPath),
+                Path.GetDirectoryName(RestartFullPath));
+
+            Download_Path = new ZipRouter(Download_FileName,
+                Path.Combine(Environment.CurrentDirectory, TempDirName));
+
         }
         private void TestVariable()
         {
-            MessageBox.Show(string.Format("RestartFullPath = {0}", RestartFullPath));
-            MessageBox.Show(string.Format("Download_Uri = {0}", Download_Uri));
-            MessageBox.Show(string.Format("Download_FileName = {0}", Download_FileName));
-            MessageBox.Show(string.Format("DownLoadFilePath = {0}", DownLoadFilePath));
-            MessageBox.Show(string.Format("DownLoadFileFullPath = {0}", DownLoadFileFullPath));
-            MessageBox.Show(string.Format("UnZipFilePath = {0}", UnZipFilePath));
-            MessageBox.Show(string.Format("UnZipFileFullPath = {0}", UnZipFileFullPath));
+            MessageBox.Show(string.Format("下載檔案名稱 : {0}",Download_Path.app_name));
+            MessageBox.Show(string.Format("下載檔案路徑 : {0}", Download_Path.position));
+            MessageBox.Show(string.Format("下載檔案完整路徑 : {0}", Download_Path.GetFullPath()));
+            MessageBox.Show(string.Format("下載檔案上一個路徑 : {0}", Download_Path.GetUpPath()));
+
+            MessageBox.Show(string.Format("下載解壓縮檔案名稱 : {0}", Download_Path.Unzip_app_name));
+            MessageBox.Show(string.Format("下載解壓縮檔案路徑 : {0}", Download_Path.position));
+            MessageBox.Show(string.Format("下載解壓縮檔案完整路徑 : {0}", Download_Path.GetFullPath_Unzip()));
+            MessageBox.Show(string.Format("下載解壓縮檔案上一個路徑 : {0}", Download_Path.GetUpPath()));
+
+            MessageBox.Show(string.Format("安裝檔案名稱 : {0}", Install_Path.app_name));
+            MessageBox.Show(string.Format("安裝檔案路徑 : {0}", Install_Path.position));
+            MessageBox.Show(string.Format("安裝檔案完整路徑 : {0}", Install_Path.GetFullPath()));
+            MessageBox.Show(string.Format("安裝檔案上一個路徑 : {0}", Install_Path.GetUpPath()));
+
         }
         private void DownLoadForm_Load(object sender, EventArgs e)
         {
-            //TestVariable();
-            List<UpdateProcess> tasks = new List<UpdateProcess>();
-            DownloadFile download_Process = new DownloadFile(Download_Uri,Download_FileName,
-                                                             DownLoadFilePath,this);
-            UnzipFile unzip_Process = new UnzipFile(DownLoadFileFullPath, UnZipFileFullPath,this);
             
+            List<UpdateProcess> tasks = new List<UpdateProcess>();
+            DownloadFile download_Process = new DownloadFile(Download_Uri,Download_Path,this);
+            UnzipFile unzip_Process = new UnzipFile(Download_Path,this);
+
+            InstallFile install_Process = new InstallFile(Download_Path, Install_Path, this);
+
             tasks.Add(download_Process);
             tasks.Add(unzip_Process);
+            tasks.Add(install_Process);
             Thread DownLoadThread = new Thread(new ParameterizedThreadStart(DonwLoadProcess));
             DownLoadThread.Start(tasks.ToArray());
         }
@@ -104,48 +103,11 @@ namespace DownLoadForm
         {
             foreach (UpdateProcess task in (UpdateProcess[])tasks)
             {
-                task.Start();
-                Thread.Sleep(1);
+                if (!task.Start())
+                    break;
+                waitHandle.WaitOne();
             }
         }
-               
-        private void mvFile(object sender, DoWorkEventArgs e)
-        {
-            lab_Title.Text = "安裝更新檔";
-            DirectoryInfo source =new DirectoryInfo(UnZipFileFullPath);
-            DirectoryInfo dir =new DirectoryInfo(RestartPath);
-            try
-            {
-                CopyFilesRecursively(source, dir);
-            }
-            catch (Exception ex) {
-
-                AutoUpdate.AutoUpdate.Debug_Error(ex.ToString());
-            }
-        }
-      
-        private void mvFile_compelete(object sender, RunWorkerCompletedEventArgs e)
-        {
-            bar_rate.Value = 100;
-            lab_Title.Text = "更新完成";
-            btn_Cancel.Text = "完成";
-            File.Delete(DownLoadFileFullPath);
-            Directory.Delete(UnZipFileFullPath, true);
-        }
-
-        private static void CopyFilesRecursively(DirectoryInfo source, DirectoryInfo target)
-        {
-            foreach (DirectoryInfo dir in source.GetDirectories())
-                CopyFilesRecursively(dir, target.CreateSubdirectory(dir.Name));
-            foreach (FileInfo file in source.GetFiles())
-                file.CopyTo(Path.Combine(target.FullName, file.Name),true);
-        }
-
-
-
-
-
-
         private void btn_Cancel_Click(object sender, EventArgs e)
         {
             if (!this.IsUpdate)
@@ -156,7 +118,7 @@ namespace DownLoadForm
                 {
                     using (Process p = new Process())
                     {
-                        p.StartInfo.FileName = RestartFullPath;
+                        p.StartInfo.FileName = Install_Path.GetFullPath();
                         p.Start();
                     }
                     Application.Exit();
@@ -207,6 +169,15 @@ namespace DownLoadForm
                                     {
                                         bar.Value = val;
                                     });
+            display.Invoke();
+        }
+        public void DelegateBtn(Button btn,string str)
+        {
+            InvokFunc display;
+            display = new InvokFunc(delegate()
+            {
+                btn.Text = str;
+            });
             display.Invoke();
         }
 

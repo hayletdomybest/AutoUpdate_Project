@@ -8,10 +8,11 @@ using System.Windows.Forms;
 
 namespace AutoUpdate
 {
-    public delegate void _UpdateComplete(bool update);
+    
     public class AutoUpdate
     {
-        public _UpdateComplete UpdateComplete = null; 
+        public delegate void _UpdateComplete();
+        public _UpdateComplete UpdateComplete = null;
 
         /// <summary>
         /// Thread to find update
@@ -94,7 +95,8 @@ namespace AutoUpdate
                 IsUpdate = (acceptform.DialogResult == DialogResult.Yes);
             }
             if (UpdateComplete != null)
-                UpdateComplete(IsUpdate);
+                if(IsUpdate)
+                    UpdateComplete();
             
         }
 

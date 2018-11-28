@@ -57,6 +57,7 @@
     <Compile Include="DownLoadForm.Designer.cs">
       <DependentUpon>DownLoadForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="InstallFile.cs" />
     <Compile Include="Process.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -82,7 +83,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Router.cs" />
     <Compile Include="UnzipFile.cs" />
+    <Compile Include="ZipRouter.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
