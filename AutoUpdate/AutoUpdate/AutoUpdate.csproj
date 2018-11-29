@@ -55,7 +55,7 @@
       <DependentUpon>AcceptForm.cs</DependentUpon>
     </Compile>
     <Compile Include="ArgsBuilder.cs" />
-    <Compile Include="AutoUpdate.cs" />
+    <Compile Include="Update.cs" />
     <Compile Include="AutoUpdateXml.cs" />
     <Compile Include="JobType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

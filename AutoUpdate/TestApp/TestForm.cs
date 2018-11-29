@@ -34,13 +34,13 @@ namespace TestApp
         private string DownLoadFormFullPath = Path.Combine(Environment.CurrentDirectory,
                                                            DownLoadFormName);
         
-        private AutoUpdate.AutoUpdate UpdateInterface;
+        private Update UpdateInterface;
         
         public TestForm()
         {
             InitializeComponent();
             Uri uri = new Uri(Server);
-            UpdateInterface = new AutoUpdate.AutoUpdate(uri, local);
+            UpdateInterface = new AutoUpdate.Update(uri, local);
             UpdateInterface.UpdateComplete += new EventHandler(UpdateComplete);
         }
 

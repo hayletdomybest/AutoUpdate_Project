@@ -76,7 +76,7 @@ namespace AutoUpdate
                 } 
             }
             catch{
-                AutoUpdate.Debug_Error("下載資料有誤");
+                Update.Debug_Error("下載資料有誤");
             }
             return info;
         }

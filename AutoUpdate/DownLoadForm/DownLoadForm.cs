@@ -151,7 +151,10 @@ namespace DownLoadForm
                                     });
             display.Invoke();  
         }
-        //---------------------------------------------------
+
+
+
+
 
         //------------------------Chang Lable-------------
         public void DelegateLable(Label lab, string str)
@@ -163,7 +166,8 @@ namespace DownLoadForm
                                     });
             display.Invoke();
         }
-        //-------------------------------------------------
+
+
 
         //------------------------Chang ProgressBar---------
         public void DelegateBar(ProgressBar bar, int val)
@@ -175,6 +179,9 @@ namespace DownLoadForm
                                     });
             display.Invoke();
         }
+
+
+        //------------------------Chang Button value---------
         public void DelegateBtn(Button btn,string str)
         {
             InvokFunc display;

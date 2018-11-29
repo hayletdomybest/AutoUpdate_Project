@@ -32,7 +32,7 @@ namespace DownLoadForm
             }
             catch (Exception ex) {
 
-                AutoUpdate.AutoUpdate.Debug_Error(ex.ToString());
+                ParentForm.DelegateShowError("安裝失敗");
             }
             return base.Start();
         }

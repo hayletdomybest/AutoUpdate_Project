@@ -6,6 +6,7 @@ using System.Text;
 using System.Net;
 using System.Threading;
 using System.IO;
+using AutoUpdate;
 namespace DownLoadForm
 {
     public class DownloadFile :UpdateProcess
@@ -74,8 +75,8 @@ namespace DownLoadForm
             }
             catch (Exception ex)
             {
-                AutoUpdate.AutoUpdate.Debug_Error("下載失敗");
-                //AutoUpdate.AutoUpdate.Debug_Error(ex.ToString());
+                ParentForm.DelegateShowError("下載失敗");
+                //Update.Debug_Error(ex.ToString());
                 return false;
             }
             finally
