@@ -11,8 +11,8 @@ namespace AutoUpdate
     
     public class AutoUpdate
     {
-        public delegate void _UpdateComplete();
-        public _UpdateComplete UpdateComplete = null;
+        //public delegate void _UpdateComplete();
+        public EventHandler UpdateComplete;
 
         /// <summary>
         /// Thread to find update
@@ -96,10 +96,9 @@ namespace AutoUpdate
             }
             if (UpdateComplete != null)
                 if(IsUpdate)
-                    UpdateComplete();
+                    UpdateComplete(this,null);
             
         }
-
         /// <summary>
         /// Check version if need update return true 
         /// </summary>

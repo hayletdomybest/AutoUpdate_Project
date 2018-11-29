@@ -104,9 +104,13 @@ namespace DownLoadForm
             foreach (UpdateProcess task in (UpdateProcess[])tasks)
             {
                 if (!task.Start())
-                    break;
+                {
+                    IsUpdate = false;
+                    return;
+                }
                 waitHandle.WaitOne();
             }
+            IsUpdate = true;
         }
         private void btn_Cancel_Click(object sender, EventArgs e)
         {

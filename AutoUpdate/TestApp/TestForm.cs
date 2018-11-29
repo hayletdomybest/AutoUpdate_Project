@@ -41,16 +41,15 @@ namespace TestApp
             InitializeComponent();
             Uri uri = new Uri(Server);
             UpdateInterface = new AutoUpdate.AutoUpdate(uri, local);
-            UpdateInterface.UpdateComplete += this.UpdateComplete;
+            UpdateInterface.UpdateComplete += new EventHandler(UpdateComplete);
         }
 
         private void btn_check_Click(object sender, EventArgs e)
         {            
-   
             UpdateInterface.DoUpdate();
         }
         
-        private  void UpdateComplete()
+        private  void UpdateComplete(object sneder,EventArgs args)
         {
             //download application path
             UpdateInterface.StartDownLoad(DownLoadFormFullPath);  

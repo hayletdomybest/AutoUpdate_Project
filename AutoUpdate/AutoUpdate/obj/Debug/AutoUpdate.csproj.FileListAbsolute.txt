@@ -5,3 +5,10 @@ D:\Data\UPS資料\新平台資料\AutoUpdate\AutoUpdate\obj\Debug\AutoUpdate.Acc
 D:\Data\UPS資料\新平台資料\AutoUpdate\AutoUpdate\obj\Debug\AutoUpdate.csproj.GenerateResource.Cache
 D:\Data\UPS資料\新平台資料\AutoUpdate\AutoUpdate\obj\Debug\AutoUpdate.dll
 D:\Data\UPS資料\新平台資料\AutoUpdate\AutoUpdate\obj\Debug\AutoUpdate.pdb
+C:\Users\user\Desktop\GitAutoUpdate\AutoUpdate_Project\AutoUpdate\AutoUpdate\bin\Debug\AutoUpdate.dll
+C:\Users\user\Desktop\GitAutoUpdate\AutoUpdate_Project\AutoUpdate\AutoUpdate\bin\Debug\AutoUpdate.pdb
+C:\Users\user\Desktop\GitAutoUpdate\AutoUpdate_Project\AutoUpdate\AutoUpdate\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\user\Desktop\GitAutoUpdate\AutoUpdate_Project\AutoUpdate\AutoUpdate\obj\Debug\AutoUpdate.AcceptForm.resources
+C:\Users\user\Desktop\GitAutoUpdate\AutoUpdate_Project\AutoUpdate\AutoUpdate\obj\Debug\AutoUpdate.csproj.GenerateResource.Cache
+C:\Users\user\Desktop\GitAutoUpdate\AutoUpdate_Project\AutoUpdate\AutoUpdate\obj\Debug\AutoUpdate.dll
+C:\Users\user\Desktop\GitAutoUpdate\AutoUpdate_Project\AutoUpdate\AutoUpdate\obj\Debug\AutoUpdate.pdb

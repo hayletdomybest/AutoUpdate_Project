@@ -8,3 +8,11 @@ D:\Data\UPS資料\新平台資料\AutoUpdate\DownLoadForm\obj\Debug\DownLoadForm
 D:\Data\UPS資料\新平台資料\AutoUpdate\DownLoadForm\obj\Debug\DownLoadForm.csproj.GenerateResource.Cache
 D:\Data\UPS資料\新平台資料\AutoUpdate\DownLoadForm\obj\Debug\DownLoadForm.exe
 D:\Data\UPS資料\新平台資料\AutoUpdate\DownLoadForm\obj\Debug\DownLoadForm.pdb
+C:\Users\user\Desktop\GitAutoUpdate\AutoUpdate_Project\AutoUpdate\TestApp\bin\Debug\DownLoadForm.exe
+C:\Users\user\Desktop\GitAutoUpdate\AutoUpdate_Project\AutoUpdate\TestApp\bin\Debug\DownLoadForm.pdb
+C:\Users\user\Desktop\GitAutoUpdate\AutoUpdate_Project\AutoUpdate\DownLoadForm\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\user\Desktop\GitAutoUpdate\AutoUpdate_Project\AutoUpdate\DownLoadForm\obj\Debug\DownLoadForm.DownLoadForm.resources
+C:\Users\user\Desktop\GitAutoUpdate\AutoUpdate_Project\AutoUpdate\DownLoadForm\obj\Debug\DownLoadForm.Properties.Resources.resources
+C:\Users\user\Desktop\GitAutoUpdate\AutoUpdate_Project\AutoUpdate\DownLoadForm\obj\Debug\DownLoadForm.csproj.GenerateResource.Cache
+C:\Users\user\Desktop\GitAutoUpdate\AutoUpdate_Project\AutoUpdate\DownLoadForm\obj\Debug\DownLoadForm.exe
+C:\Users\user\Desktop\GitAutoUpdate\AutoUpdate_Project\AutoUpdate\DownLoadForm\obj\Debug\DownLoadForm.pdb
