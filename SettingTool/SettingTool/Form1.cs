@@ -10,7 +10,7 @@ namespace SettingTool
         /// <summary>
         /// Download information Server address
         /// </summary>
-        private const string Server = @"https://raw.githubusercontent.com/t628x7600/AutoUpdate_Project/master/updateInfo.xml";
+        private const string Server = @"https://raw.githubusercontent.com/t628x7600/AutoUpdate_Project/SettingTool/updateInfo.xml";
 
 
         /// <summary>

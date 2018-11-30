@@ -6,3 +6,11 @@ C:\Users\user\Desktop\GitAutoUpdate\SettingTool\SettingTool\bin\Debug\SettingToo
 C:\Users\user\Desktop\GitAutoUpdate\SettingTool\SettingTool\bin\Debug\SettingTool.pdb
 C:\Users\user\Desktop\GitAutoUpdate\SettingTool\SettingTool\obj\Debug\SettingTool.exe
 C:\Users\user\Desktop\GitAutoUpdate\SettingTool\SettingTool\obj\Debug\SettingTool.pdb
+C:\Users\user\Desktop\GitAutoUpdate\AutoUpdate_Project\SettingTool\SettingTool\obj\Debug\SettingTool.exe
+C:\Users\user\Desktop\GitAutoUpdate\AutoUpdate_Project\SettingTool\SettingTool\obj\Debug\SettingTool.pdb
+C:\Users\user\Desktop\GitAutoUpdate\AutoUpdate_Project\SettingTool\SettingTool\bin\Debug\SettingTool.exe
+C:\Users\user\Desktop\GitAutoUpdate\AutoUpdate_Project\SettingTool\SettingTool\bin\Debug\SettingTool.pdb
+C:\Users\user\Desktop\GitAutoUpdate\AutoUpdate_Project\SettingTool\SettingTool\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\user\Desktop\GitAutoUpdate\AutoUpdate_Project\SettingTool\SettingTool\obj\Debug\SettingTool.Form1.resources
+C:\Users\user\Desktop\GitAutoUpdate\AutoUpdate_Project\SettingTool\SettingTool\obj\Debug\SettingTool.Properties.Resources.resources
+C:\Users\user\Desktop\GitAutoUpdate\AutoUpdate_Project\SettingTool\SettingTool\obj\Debug\SettingTool.csproj.GenerateResource.Cache
