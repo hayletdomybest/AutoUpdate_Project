@@ -1,0 +1,27 @@
+<?xml version="1.0" standalone="yes"?>
+<NewDataSet>
+  <SerialNumber>
+    <Item>9QMMCMHN-EC55DDLNC5HCQBB4</Item>
+  </SerialNumber>
+  <De>
+    <Item>K0DOCN2</Item>
+  </De>
+  <Lan>
+    <Item>0</Item>
+  </Lan>
+  <PSAddress>
+    <Item>BC-00-E0-D0-BC-00</Item>
+  </PSAddress>
+  <DateTime>
+    <Item>6ESNBCL22664</Item>
+  </DateTime>
+  <MachineType>
+    <Item>TA</Item>
+  </MachineType>
+  <Protocol>
+    <Item>TA05187D</Item>
+  </Protocol>
+  <CommunicationType>
+    <Item>RS232</Item>
+  </CommunicationType>
+</NewDataSet>
