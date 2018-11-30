@@ -41,7 +41,6 @@
             this.btn_check.TabIndex = 0;
             this.btn_check.Text = "檢查更新";
             this.btn_check.UseVisualStyleBackColor = true;
-            this.btn_check.Click += new System.EventHandler(this.btn_check_Click);
             // 
             // label1
             // 

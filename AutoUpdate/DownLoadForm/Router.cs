@@ -20,13 +20,6 @@ namespace DownLoadForm
             _app_name = name;
             _position = rounte;
         }
-/*
-        public Router(string full_path)
-        {
-            _app_name = Path.GetFileName(full_path);
-            _position = Path.GetDirectoryName(full_path);
-        }
-*/
 
         /// <summary>
         /// Get uppper router  ex curr:home/temp  upper: home

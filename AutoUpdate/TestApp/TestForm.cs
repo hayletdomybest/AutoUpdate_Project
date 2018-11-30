@@ -1,16 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
 using System.Reflection;
-using AutoUpdate;
-using System.Net;
 using System.IO;
-using System.Diagnostics;
-using System.Xml;
+using System.Windows.Forms;
+using AutoUpdate;
 namespace TestApp
 {
     public partial class TestForm : Form
@@ -40,12 +32,8 @@ namespace TestApp
         {
             InitializeComponent();
             Uri uri = new Uri(Server);
-            UpdateInterface = new AutoUpdate.Update(uri, local);
+            UpdateInterface = new AutoUpdate.Update(uri, local,1000,3000);
             UpdateInterface.UpdateComplete += new EventHandler(UpdateComplete);
-        }
-
-        private void btn_check_Click(object sender, EventArgs e)
-        {            
             UpdateInterface.DoUpdate();
         }
         

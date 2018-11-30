@@ -5,7 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
-
+using System.Threading;
 namespace AutoUpdate
 {
     
@@ -13,11 +13,6 @@ namespace AutoUpdate
     {
         //public delegate void _UpdateComplete();
         public EventHandler UpdateComplete;
-
-        /// <summary>
-        /// Thread to find update
-        /// </summary>
-        private BackgroundWorker Bg_checkUpdateInfo;
 
         private UpdateInfo ServerUpdateInfo;
 
@@ -33,71 +28,94 @@ namespace AutoUpdate
         private Version LocalVersion;
 
         /// <summary>
+        /// For Check update informate 
+        /// </summary>
+        private System.Threading.Timer checkInfo;
+
+        public int dueTime { get; set; }
+        public int period { get; set; }
+
+        private bool _lock = false;
+        /// <summary>
         /// Creates a new AutoUpdate object
         /// </summary>
         /// <param name="a">Parent ssembly to be attached</param>
         /// <param name="owner">Parent form to be attached</param>
         /// <param name="XMLOnServer">Uri of the update xml on the server</param>
-        public Update(Uri server, Version location)
+        public Update(Uri server, Version location,int durTime,int period)
         {
             UpdateXmlServer = server;
             LocalVersion = location;
-
-            // Set up backgroundworker
-            Bg_checkUpdateInfo = new BackgroundWorker();
-            Bg_checkUpdateInfo.DoWork += new DoWorkEventHandler(CheckUpdateInfo);
-            Bg_checkUpdateInfo.RunWorkerCompleted += new RunWorkerCompletedEventHandler(Bg_checkUpdateInfo_completed);
-        }
+            this.dueTime = dueTime;
+            this.period = period;
+       }
 
         /// <summary>
         /// Update data
         /// </summary>
         public void DoUpdate()
         {
-            if (!Bg_checkUpdateInfo.IsBusy)
-                Bg_checkUpdateInfo.RunWorkerAsync();
+            if (UpdateComplete == null)
+            {
+                MessageBox.Show("請實作檢查更新完成事件");
+                return;
+            }
+            //AutoResetEvent Handle = new AutoResetEvent(false);
+            TimerCallback checkInfoCallBack= new TimerCallback(CheckUpdateInfo);
+            checkInfo = new System.Threading.Timer(checkInfoCallBack,null, dueTime, period);
+            
         }
 
 
         /// <summary>
         /// Checks for/parses update.xml on server
         /// </summary>
-        private void CheckUpdateInfo(object sender, DoWorkEventArgs e)
+        private void CheckUpdateInfo(object sender)
         {
-            // Check for update on server
-            e.Cancel = (!AutoUpdateXml.IsExistServer(UpdateXmlServer));
-
-            if (e.Cancel){
-                MessageBox.Show("下載路徑失效");
+            if (_lock)
                 return;
+            _lock = true;
+            // Check for update on server
+            AutoResetEvent autoReset = (AutoResetEvent)sender;
+            if (!AutoUpdateXml.IsExistServer(UpdateXmlServer))
+            {
+                MessageBox.Show("下載路徑失效");
             }
-            
-            ServerUpdateInfo = AutoUpdateXml.XmlParse(UpdateXmlServer);
+            else
+            {
+                ServerUpdateInfo = AutoUpdateXml.XmlParse(UpdateXmlServer);
+                CheckUpdate_State result = Bg_checkUpdateInfo_completed();
 
-        }
+                switch (result)
+                {
+                    case CheckUpdate_State.Update:
+                        UpdateComplete(this, null);
+                        break;
+                    case CheckUpdate_State.Cancel:
+                        checkInfo.Dispose();
+                        break;
+                    default:
+                        break;
+                }
+            }
+            _lock = false;
+       }
 
 
         /// <summary>
         /// After the background worker is done, prompt to update if there is one
         /// </summary>
-        private void Bg_checkUpdateInfo_completed(object sender, RunWorkerCompletedEventArgs e)
+        private CheckUpdate_State Bg_checkUpdateInfo_completed()
         {
-            bool IsUpdate = false;
+            
             // If there is a file on the server
-            if (e.Cancelled)
-                return;
-
-            
-            if (IsNeedUpdate(ServerUpdateInfo._Version,LocalVersion))
-            {
-                AcceptForm acceptform = new AcceptForm(ServerUpdateInfo);
-                acceptform.ShowDialog();
-                IsUpdate = (acceptform.DialogResult == DialogResult.Yes);
-            }
-            if (UpdateComplete != null)
-                if(IsUpdate)
-                    UpdateComplete(this,null);
-            
+            if (!IsNeedUpdate(ServerUpdateInfo._Version,LocalVersion))
+                return CheckUpdate_State.lastest;
+   
+            AcceptForm acceptform = new AcceptForm(ServerUpdateInfo);
+            acceptform.ShowDialog();
+            return (acceptform.DialogResult == DialogResult.Yes) ? CheckUpdate_State.Update :
+                                                                   CheckUpdate_State.Cancel ;        
         }
         /// <summary>
         /// Check version if need update return true 
@@ -169,4 +187,12 @@ namespace AutoUpdate
             Application.Exit();
         }
     }
+}
+
+
+public enum CheckUpdate_State
+{ 
+    lastest,
+    Update,
+    Cancel
 }
