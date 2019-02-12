@@ -32,23 +32,41 @@ namespace AutoUpdate
         /// </summary>
         private System.Threading.Timer checkInfo;
 
+        
+        private bool IsSetTimmer = false;
+
+        /// <summary>
+        /// Timmer wait ms time to start
+        /// </summary>
         public int dueTime { get; set; }
+
+        /// <summary>
+        /// Timmer period(ms)
+        /// </summary>
         public int period { get; set; }
 
         private bool _lock = false;
         /// <summary>
         /// Creates a new AutoUpdate object
         /// </summary>
-        /// <param name="a">Parent ssembly to be attached</param>
-        /// <param name="owner">Parent form to be attached</param>
-        /// <param name="XMLOnServer">Uri of the update xml on the server</param>
         public Update(Uri server, Version location,int durTime,int period)
         {
             UpdateXmlServer = server;
             LocalVersion = location;
             this.dueTime = dueTime;
             this.period = period;
-       }
+            IsSetTimmer = true;
+        }
+        /// <summary>
+        /// Creates a new AutoUpdate object
+        /// </summary>
+        public Update(Uri server, Version location) 
+        {
+            UpdateXmlServer = server;
+            LocalVersion = location;
+            this.dueTime = 0;
+            this.period = 3000;
+        }
 
         /// <summary>
         /// Update data
@@ -60,10 +78,10 @@ namespace AutoUpdate
                 MessageBox.Show("請實作檢查更新完成事件");
                 return;
             }
-            //AutoResetEvent Handle = new AutoResetEvent(false);
-            TimerCallback checkInfoCallBack= new TimerCallback(CheckUpdateInfo);
-            checkInfo = new System.Threading.Timer(checkInfoCallBack,null, dueTime, period);
-            
+
+            TimerCallback checkInfoCallBack = new TimerCallback(CheckUpdateInfo);
+            checkInfo = new System.Threading.Timer(checkInfoCallBack, null, dueTime, period);
+        
         }
 
 
@@ -76,7 +94,7 @@ namespace AutoUpdate
                 return;
             _lock = true;
             // Check for update on server
-            AutoResetEvent autoReset = (AutoResetEvent)sender;
+            //AutoResetEvent autoReset = (AutoResetEvent)sender;
             if (!AutoUpdateXml.IsExistServer(UpdateXmlServer))
             {
                 MessageBox.Show("下載路徑失效");
@@ -95,6 +113,8 @@ namespace AutoUpdate
                         checkInfo.Dispose();
                         break;
                     default:
+                        if (!IsSetTimmer)
+                            checkInfo.Dispose();
                         break;
                 }
             }

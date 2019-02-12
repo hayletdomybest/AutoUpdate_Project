@@ -32,7 +32,7 @@ namespace TestApp
         {
             InitializeComponent();
             Uri uri = new Uri(Server);
-            UpdateInterface = new AutoUpdate.Update(uri, local,1000,3000);
+            UpdateInterface = new AutoUpdate.Update(uri, local);
             UpdateInterface.UpdateComplete += new EventHandler(UpdateComplete);
             UpdateInterface.DoUpdate();
         }
@@ -46,6 +46,11 @@ namespace TestApp
         private void Form1_Load(object sender, EventArgs e)
         {
             label1.Text = "當前版本號碼" + "\n     " + ProductVersion; 
+        }
+
+        private void btn_check_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
